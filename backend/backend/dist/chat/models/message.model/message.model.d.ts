@@ -25,16 +25,11 @@
 import { Document } from 'mongoose';
 export declare class MessageModel {
     content: string;
+    isUser: boolean;
 }
 export declare class Message {
     message: string;
     isStreaming?: boolean;
-    sourceDocs?: ChatMessageType[];
-}
-export declare class ChatMessageType {
-    content: string;
-    isUser: boolean;
-    sourceDocs?: Document[];
 }
 export type MessageDocument = MessageModel & Document;
 export declare const MessageSchema: import("mongoose").Schema<MessageModel, import("mongoose").Model<MessageModel, any, any, any, Document<unknown, any, MessageModel> & MessageModel & {

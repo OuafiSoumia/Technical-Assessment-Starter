@@ -6,6 +6,8 @@ import { ObjectType, Field } from '@nestjs/graphql';
 export class MessageModel {
   @Prop()
   content: string;
+  @Prop()
+  isUser:boolean;
 }
 
 @ObjectType()
@@ -16,21 +18,17 @@ export class Message {
   @Field(() => Boolean)
   isStreaming?: boolean;
 
-  @Field(() => [ChatMessageType], { nullable: true })
-  sourceDocs?: ChatMessageType[];
+  // @Field(() => [ChatMessageType], { nullable: true })
+  // sourceDocs?: ChatMessageType[];
 }
 
-@ObjectType()
-export class ChatMessageType {
-  @Field(() => String)
-  content: string;
+// @ObjectType()
+// export class ChatMessageType {
+//   @Field(() => String)
+//   content: string;
 
-  @Field(() => Boolean)
-  isUser: boolean;
-
-  @Field(() => [Message], { nullable: true })
-  sourceDocs?: Document[];
-}
+//   @Field(() => Boolean!)
+//   isUser: boolean;
+// }
 export type MessageDocument = MessageModel & Document;
 export const MessageSchema = SchemaFactory.createForClass(MessageModel);
-

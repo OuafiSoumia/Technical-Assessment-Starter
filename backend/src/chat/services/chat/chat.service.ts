@@ -1,24 +1,33 @@
 import { Injectable } from '@nestjs/common';
-import { ChatProcessingService } from 'src/pinecone/chat/services/ChatProcessing.service'; // Assurez-vous que le chemin est correct
+import { ChatMessageType } from '@/message/models';
+import { ChatProcessingService } from 'src/chatTraitement/services/ChatProcessing.service';
+import { MessageRepository } from '@/message/repositories';
 
 @Injectable()
 export class ChatService {
   private messages: { content: string; isUser: boolean }[] = [];
 
-  constructor(private readonly chatProcessingService: ChatProcessingService) {}
+  constructor(
+    private readonly messageRepository: MessageRepository,
+    private readonly chatProcessingService: ChatProcessingService,
+  ) {}
 
-  async sendMessage(content: string, isUser: boolean): Promise<void> {
-    this.messages.push({ content, isUser });
-  }
+  async getMessages(): Promise<ChatMessageType[]> {
+    console.log('le rep getMessages est ')
 
-  async getMessages(): Promise<{ content: string; isUser: boolean }[]> {
-    return this.messages;
+    const responses = await this.messageRepository.findAll();
+    console.log('le rep getMessages est ',responses)
+    return responses.map(({ question, response }) => ({
+      question,
+      response,
+    }));
   }
 
   async askQuestion(question: string): Promise<string> {
     try {
       const response = await this.chatProcessingService.processQuestion(question, this.messages);
-      await this.sendMessage(response, false);
+      const resp=await this.messageRepository.createMessage(question, response);
+      console.log('le msg et la rep sont',resp)
       return response;
     } catch (error) {
       console.error(error);
