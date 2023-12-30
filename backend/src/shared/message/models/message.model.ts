@@ -1,14 +1,26 @@
+
+import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 @Schema()
-export class Message extends Document {
+export class MessageModel {
   @Prop()
-  content: string;
+  question: string;
 
   @Prop()
-  isUser: boolean;
+  response: string;
 }
 
-export type MessageDocument = Message & Document;
-export const MessageSchema = SchemaFactory.createForClass(Message);
+
+@ObjectType()
+export class ChatMessageType {
+  @Field(() => String)
+  question: string;
+
+  @Field(() => String)
+  response: string;
+}
+
+export type MessageDocument = MessageModel & Document;
+export const MessageSchema = SchemaFactory.createForClass(MessageModel);

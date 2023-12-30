@@ -6,12 +6,10 @@ import { pinecone } from '@/libs/pinecone';
 import { AIMessage, HumanMessage } from 'langchain/schema';
 import { PineconeStore } from 'langchain/vectorstores/pinecone';
 import { MessageDTO } from '@/message/dto/message.dto';
-import { MessageRepository } from '@/message/repositories';
 
 @Injectable()
 export class ChatProcessingService {
   
-constructor(private readonly messageRepository: MessageRepository) {}
  async processQuestion(question: string, messages: MessageDTO[]): Promise<string> {
 
     try {
@@ -22,11 +20,6 @@ constructor(private readonly messageRepository: MessageRepository) {}
       const response = await this.askQuestionWithChain(question, pastMessages, chain);
 
       console.log('Response:', response);
-
-      // pour ajouter a l'historique
-   // await this.ChatService.sendMessage(response.text, false);
-      const newMessage: MessageDTO = { content: 'Example content', isUser: true };
-      await this.messageRepository.createMessage("exemple");
 
       return response.text;
     } catch (error) {

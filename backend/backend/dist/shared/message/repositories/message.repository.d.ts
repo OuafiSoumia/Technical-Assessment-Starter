@@ -23,10 +23,10 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Model } from 'mongoose';
-import { MessageDocument } from 'src/chat/models/message.model/message.model';
+import { MessageDocument } from '../models';
 export declare class MessageRepository {
     private readonly messageModel;
     constructor(messageModel: Model<MessageDocument>);
-    createMessage(content: string): Promise<MessageDocument>;
+    createMessage(question: string, response: string): Promise<MessageDocument>;
     findAll(): Promise<MessageDocument[]>;
 }

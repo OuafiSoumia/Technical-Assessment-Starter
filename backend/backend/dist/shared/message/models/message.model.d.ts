@@ -23,13 +23,17 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Document } from 'mongoose';
-export declare class Message extends Document {
-    content: string;
-    isUser: boolean;
+export declare class MessageModel {
+    question: string;
+    response: string;
 }
-export type MessageDocument = Message & Document;
-export declare const MessageSchema: import("mongoose").Schema<Message, import("mongoose").Model<Message, any, any, any, Document<unknown, any, Message> & Message & {
+export declare class ChatMessageType {
+    question: string;
+    response: string;
+}
+export type MessageDocument = MessageModel & Document;
+export declare const MessageSchema: import("mongoose").Schema<MessageModel, import("mongoose").Model<MessageModel, any, any, any, Document<unknown, any, MessageModel> & MessageModel & {
     _id: import("mongoose").Types.ObjectId;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Message, Document<unknown, {}, import("mongoose").FlatRecord<Message>> & import("mongoose").FlatRecord<Message> & {
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, MessageModel, Document<unknown, {}, import("mongoose").FlatRecord<MessageModel>> & import("mongoose").FlatRecord<MessageModel> & {
     _id: import("mongoose").Types.ObjectId;
 }>;

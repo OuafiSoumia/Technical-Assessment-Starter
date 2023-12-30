@@ -15,48 +15,32 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppResolver = void 0;
 const graphql_1 = require("@nestjs/graphql");
 const chat_service_1 = require("./chat/services/chat/chat.service");
-const message_model_1 = require("./chat/models/message.model/message.model");
+const models_1 = require("./shared/message/models");
 let AppResolver = class AppResolver {
     constructor(chatService) {
         this.chatService = chatService;
     }
-    getHello() {
-        return 'Hello World!';
-    }
     async getMessages() {
-        return this.chatService.getMessages();
-    }
-    async sendMessage(content, isUser) {
-        await this.chatService.sendMessage(content, isUser);
-        return 'Message sent successfully';
+        const response = await this.chatService.getMessages();
+        const res = response.map(({ question, response }) => ({
+            question,
+            response,
+        }));
+        console.log('dans resolver ', res);
+        return res;
     }
     async askQuestion(question) {
-        console.log("****** la qst est", question);
         const response = await this.chatService.askQuestion(question);
         return response;
     }
 };
 exports.AppResolver = AppResolver;
 __decorate([
-    (0, graphql_1.Query)(() => String),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", String)
-], AppResolver.prototype, "getHello", null);
-__decorate([
-    (0, graphql_1.Query)(() => [message_model_1.ChatMessageType]),
+    (0, graphql_1.Query)(() => [models_1.ChatMessageType]),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], AppResolver.prototype, "getMessages", null);
-__decorate([
-    (0, graphql_1.Mutation)(() => String),
-    __param(0, (0, graphql_1.Args)('content')),
-    __param(1, (0, graphql_1.Args)('isUser')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Boolean]),
-    __metadata("design:returntype", Promise)
-], AppResolver.prototype, "sendMessage", null);
 __decorate([
     (0, graphql_1.Query)(() => String),
     __param(0, (0, graphql_1.Args)('question')),

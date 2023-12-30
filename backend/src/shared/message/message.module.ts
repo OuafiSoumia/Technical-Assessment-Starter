@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { MessageModel, MessageSchema } from 'src/chat/models/message.model/message.model';
 import { MessageRepository } from './repositories';
+import { MessageModel, MessageSchema } from './models';
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: MessageModel.name, schema: MessageSchema }])],

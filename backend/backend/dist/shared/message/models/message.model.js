@@ -9,22 +9,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MessageSchema = exports.Message = void 0;
+exports.MessageSchema = exports.ChatMessageType = exports.MessageModel = void 0;
+const graphql_1 = require("@nestjs/graphql");
 const mongoose_1 = require("@nestjs/mongoose");
-const mongoose_2 = require("mongoose");
-let Message = class Message extends mongoose_2.Document {
+let MessageModel = class MessageModel {
 };
-exports.Message = Message;
+exports.MessageModel = MessageModel;
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
-], Message.prototype, "content", void 0);
+], MessageModel.prototype, "question", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
-    __metadata("design:type", Boolean)
-], Message.prototype, "isUser", void 0);
-exports.Message = Message = __decorate([
+    __metadata("design:type", String)
+], MessageModel.prototype, "response", void 0);
+exports.MessageModel = MessageModel = __decorate([
     (0, mongoose_1.Schema)()
-], Message);
-exports.MessageSchema = mongoose_1.SchemaFactory.createForClass(Message);
+], MessageModel);
+let ChatMessageType = class ChatMessageType {
+};
+exports.ChatMessageType = ChatMessageType;
+__decorate([
+    (0, graphql_1.Field)(() => String),
+    __metadata("design:type", String)
+], ChatMessageType.prototype, "question", void 0);
+__decorate([
+    (0, graphql_1.Field)(() => String),
+    __metadata("design:type", String)
+], ChatMessageType.prototype, "response", void 0);
+exports.ChatMessageType = ChatMessageType = __decorate([
+    (0, graphql_1.ObjectType)()
+], ChatMessageType);
+exports.MessageSchema = mongoose_1.SchemaFactory.createForClass(MessageModel);
 //# sourceMappingURL=message.model.js.map

@@ -12,21 +12,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChatService = void 0;
 const common_1 = require("@nestjs/common");
 const ChatProcessing_service_1 = require("../../../chatTraitement/services/ChatProcessing.service");
+const repositories_1 = require("../../../shared/message/repositories");
 let ChatService = class ChatService {
-    constructor(chatProcessingService) {
+    constructor(messageRepository, chatProcessingService) {
+        this.messageRepository = messageRepository;
         this.chatProcessingService = chatProcessingService;
         this.messages = [];
     }
-    async sendMessage(content, isUser) {
-        this.messages.push({ content, isUser });
-    }
     async getMessages() {
-        return this.messages;
+        console.log('le rep getMessages est ');
+        const responses = await this.messageRepository.findAll();
+        console.log('le rep getMessages est ', responses);
+        return responses.map(({ question, response }) => ({
+            question,
+            response,
+        }));
     }
     async askQuestion(question) {
         try {
             const response = await this.chatProcessingService.processQuestion(question, this.messages);
-            await this.sendMessage(response, false);
+            const resp = await this.messageRepository.createMessage(question, response);
+            console.log('le msg et la rep sont', resp);
             return response;
         }
         catch (error) {
@@ -38,6 +44,7 @@ let ChatService = class ChatService {
 exports.ChatService = ChatService;
 exports.ChatService = ChatService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [ChatProcessing_service_1.ChatProcessingService])
+    __metadata("design:paramtypes", [repositories_1.MessageRepository,
+        ChatProcessing_service_1.ChatProcessingService])
 ], ChatService);
 //# sourceMappingURL=chat.service.js.map

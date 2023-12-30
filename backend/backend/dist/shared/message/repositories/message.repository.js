@@ -16,13 +16,14 @@ exports.MessageRepository = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
-const message_model_1 = require("../../../chat/models/message.model/message.model");
+const models_1 = require("../models");
 let MessageRepository = class MessageRepository {
     constructor(messageModel) {
         this.messageModel = messageModel;
     }
-    async createMessage(content) {
-        const newMessage = new this.messageModel({ content });
+    async createMessage(question, response) {
+        const message = { question, response };
+        const newMessage = new this.messageModel(message);
         return newMessage.save();
     }
     async findAll() {
@@ -32,7 +33,7 @@ let MessageRepository = class MessageRepository {
 exports.MessageRepository = MessageRepository;
 exports.MessageRepository = MessageRepository = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)(message_model_1.MessageModel.name)),
+    __param(0, (0, mongoose_1.InjectModel)(models_1.MessageModel.name)),
     __metadata("design:paramtypes", [mongoose_2.Model])
 ], MessageRepository);
 //# sourceMappingURL=message.repository.js.map
