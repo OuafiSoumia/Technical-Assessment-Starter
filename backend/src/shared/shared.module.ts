@@ -49,6 +49,7 @@ import { MessageModule } from './message/message.module';
       },
       inject: [ConfigService],
       imports: [ConfigModule],
+      
     }),
     MessageModule,
   ],
